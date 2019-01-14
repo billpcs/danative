@@ -6,7 +6,7 @@ object Danative {
     val str = f.getName
     str.lastIndexOf('.') match {
       case -1 => "empty"
-      case i => str.slice(i+1, str.length)
+      case i => str.slice(i+1, str.length).toLowerCase
     }
   }
   
