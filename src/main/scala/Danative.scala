@@ -21,10 +21,8 @@ object Danative {
 
     val (extensions, numberOfFilesAndBytes) = extensionsToBytes.unzip
     val (numberOfFiles, bytes) = numberOfFilesAndBytes.unzip 
-    val maxSize = bytes.max
     val overallSize = bytes.sum
     val filesDiscovered = numberOfFiles.sum
-    val maxExtensionLength = extensions.map(_.length).max
     val padding = 20
     val seqedData = (extensions zip bytes).toSeq.sortWith(_._2 > _._2)
 
