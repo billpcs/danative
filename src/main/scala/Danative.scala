@@ -2,7 +2,11 @@ import java.io.File
 
 object Danative {
 
-  def extension(f: File): String = {
+  type FileExtension  = String
+  type FileNumber     = Int
+  type FileSizeBytes  = Long
+
+  def extension(f: File): FileExtension = {
     val str = f.getName
     str.lastIndexOf('.') match {
       case -1 => "empty"
@@ -15,7 +19,7 @@ object Danative {
     here.filter(_.isFile) ++ here.filter(_.isDirectory).flatMap(filesUnderDir)
   }
   
-  def createResults(extensionsToBytes: Map[String, (Int, Long)]): Seq[String] = {
+  def createResults(extensionsToBytes: Map[FileExtension, (FileNumber, FileSizeBytes)]): Seq[String] = {
 
     import Console._
 
