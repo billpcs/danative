@@ -27,13 +27,12 @@ object Danative {
     val (numberOfFiles, bytes) = numberOfFilesAndBytes.unzip 
     val overallSize = bytes.sum
     val filesDiscovered = numberOfFiles.sum
-    val padding = 20
     val seqedData = (extensions zip bytes).toSeq.sortWith(_._2 > _._2)
 
     def colorize(color: String)(x: String): String = color + x + Console.RESET
 
     def createLine(prefix: String, extension: String, size: String, percent: String): String =
-      s"$prefix $extension  -> $size $percent"
+      f"$prefix $extension%30s  -> $size%15s $percent%5s"
   
     def beautifyPercentage(v: Long): String = 
       s"(${(100.0 * v / overallSize)}%)"
@@ -48,32 +47,28 @@ object Danative {
       else                  fmt(v/c/c/c/c) + " TB"
     }
 
-    def normalizeStr(initial: String, target: Int = padding): String = {
-      val res = target - initial.length
-      if (res > 0) " "*res + initial
-      else initial
-    }
-
     val colors: Array[String => String] = 
       Array(RED, BLUE, MAGENTA, GREEN, YELLOW, CYAN) map colorize
 
     val colored = colors.length
 
     val coloredData = (seqedData zip colors).map{case ((k, v), colorize) =>
-      createLine(
-        colorize("@"),
-        normalizeStr(k), 
-        normalizeStr(colorize(beautifyAbsolute(v))), 
-        normalizeStr(beautifyPercentage(v))
+      colorize(
+        createLine(
+          "@",
+          k,
+          beautifyAbsolute(v),
+          beautifyPercentage(v)
+        )
       )
     }
 
     val simpleData = (seqedData drop colored).map{case (k, v) =>
       createLine(
         "@",
-        normalizeStr(k),
-        normalizeStr(beautifyAbsolute(v), target = padding/2 + 1), 
-        normalizeStr(beautifyPercentage(v))
+        k,
+        beautifyAbsolute(v),
+        beautifyPercentage(v)
       )
     }
 
