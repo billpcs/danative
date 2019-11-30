@@ -1,5 +1,5 @@
 enablePlugins(ScalaNativePlugin)
-scalaVersion := "2.11.11"
+scalaVersion := "2.11.12"
 
 // optimize for best runtime performance at expense of longer compilation time
 nativeMode := "release"
