@@ -15,8 +15,15 @@ object Danative {
   }
   
   def filesUnderDir(f: File): Vector[File] = {
-    val here = f.listFiles.toVector
-    here.filter(_.isFile) ++ here.filter(_.isDirectory).flatMap(filesUnderDir)
+    if (!f.canRead || !f.isDirectory) {
+      Vector.empty
+    }
+    else {
+      f.listFiles.toVector.flatMap { file =>
+        if (file.isFile) Vector(file)
+        else filesUnderDir(file)
+      }
+    }
   }
   
   def createResults(extensionsToBytes: Map[FileExtension, (FileNumber, FileSizeBytes)]): Seq[String] = {
