@@ -41,8 +41,9 @@ object Danative {
     def createLine(prefix: String, extension: String, size: String, percent: String): String =
       f"$prefix $extension%30s  -> $size%15s $percent%5s"
   
-    def beautifyPercentage(v: Long): String = 
-      s"(${(100.0 * v / overallSize)}%)"
+    def beautifyPercentage(v: Long): String =
+      if (overallSize == 0) ""
+      else s"(${(100.0 * v / overallSize)}%)"
 
     def beautifyAbsolute(v: Long): String = {
       def fmt(n: Double): String = "%.2f" format n
